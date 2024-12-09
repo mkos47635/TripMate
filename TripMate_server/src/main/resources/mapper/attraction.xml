@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.trip.attraction.model.mapper.AttractionMapper">
+
+	<resultMap type="attractionDto" id="attraction">
+		<result column="content_id" property="contentId"/>
+		<result column="title" property="title"/>
+		<result column="content_type_id" property="contentTypeId"/>
+		<result column="area_code" property="areaCode"/>
+		<result column="si_gun_gu_code" property="siGunGuCode"/>
+		<result column="first_image1" property="firstImage1"/>
+		<result column="first_image2" property="firstImage2"/>
+		<result column="map_level" property="mapLevel"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+		<result column="tel" property="tel"/>
+		<result column="addr1" property="addr1"/>
+		<result column="addr2" property="addr2"/>
+		<result column="homepage" property="homePage"/>
+		<result column="overview" property="overView"/>
+	</resultMap>
+	
+	
+	<select id="searchAttraction" parameterType="map" resultMap="attraction">
+		select  *  from attractions
+		where content_type_id=#{contentId} 
+				and area_code=#{sidoCode} 
+				and si_gun_gu_code=#{gugunCode} 
+				and (title LIKE CONCAT('%', #{keyword}, '%') OR #{keyword} IS NULL OR #{keyword} = '')
+		limit 6 OFFSET ${offset};
+	</select>
+	
+	<select id="getGugun" parameterType="int" resultType="String">
+		select  gugun_name
+		from guguns
+		where sido_code = #{sidoCode}
+	</select>
+	
+	<select id="searchLikeAttraction" parameterType="String" resultMap="attraction">
+			select * from like_attraction
+			join attractions on like_attraction.attraction_no = attractions.no
+			where like_attraction.user_id = #{userId}
+	</select>
+</mapper>

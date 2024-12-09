@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.trip.plan.model.mapper.PlanMapper">
+
+    <resultMap type="com.trip.plan.model.PlanDto" id="plan">
+        <result column="plan_id" property="planId"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="image" property="image"/>
+        <result column="tour_day" property="tourDay"/>
+    </resultMap>
+    
+    <resultMap type="com.trip.plan.model.PlanDetailDto" id="planDetail">
+        <result column="detail_id" property="detailId"/>
+        <result column="plan_id" property="planId"/>
+        <result column="plan_index" property="planIndex"/>
+        <result column="day" property="day"/>
+        <result column="content_id" property="contentId"/>
+        <result column="title" property="title"/>
+        <result column="addr1" property="addr1"/>
+        <result column="addr2" property="addr2"/>
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
+    </resultMap>
+
+    <resultMap type="PlanInviteResponseDto" id="invite">
+    	<result column="user_name" property="userName"/>
+    	<result column="title" property="title"/>
+    </resultMap>
+    <select id="getPlanList" parameterType="String" resultMap="plan">
+	    SELECT *
+	    FROM plans
+	    WHERE user_id = #{userId}
+	    UNION
+	    SELECT p.*
+	    FROM plans p
+	    JOIN plan_share ps ON p.plan_id = ps.plan_id
+	    WHERE ps.user_id = #{userId}
+    </select>
+
+    <select id="getPlanDetailList" parameterType="String" resultMap="planDetail">
+        SELECT *
+        FROM plan_details
+        WHERE plan_id = #{planId}
+    </select>
+    
+    <select id="checkExistence" parameterType="com.trip.plan.model.PlanDetailDto" resultType="int">
+        SELECT count(*)
+        FROM plan_details
+        WHERE plan_id=#{planId} and content_id = #{contentId} and day = #{day}
+    </select>
+    
+    <update id="updateIndex" parameterType="com.trip.plan.model.PlanDetailDto">
+        UPDATE plan_details
+        SET plan_index = #{planIndex}
+        WHERE content_id = #{contentId} and day = #{day}
+    </update>
+    
+    <delete id="deletePlanDetail" parameterType="com.trip.plan.model.PlanDetailDto">
+        delete from plan_details
+        WHERE content_id = #{contentId} and day = #{day}
+    </delete>
+    
+    <insert id="insertPlanDetail" parameterType="com.trip.plan.model.PlanDetailDto">
+        INSERT INTO plan_details (plan_id, plan_index, day, content_id, title, addr1, addr2, latitude, longitude)
+        VALUES (#{planId}, #{planIndex}, #{day}, #{contentId}, #{title}, #{addr1}, #{addr2}, #{latitude}, #{longitude})
+    </insert>
+
+    <delete id="deletePlan" parameterType="int">
+        delete from plans
+        WHERE plan_id = #{planId}
+    </delete>
+    
+    <select id="getPlanById" parameterType="int" resultMap="invite">
+		SELECT m.user_name, p.title
+		FROM plans p
+		JOIN members m
+		ON p.user_id = m.user_id
+		WHERE p.plan_id = #{planId};
+    </select>
+    
+    <insert id="savePlanForShare">
+   	    INSERT INTO plan_share (plan_id, user_id, shared_date)
+    	VALUES (#{planId}, #{userId}, NOW());
+    </insert>
+    <insert id="savePlan" parameterType="planDto">
+    	insert into plans (user_id, title, description, tour_day, start_date)
+    	values (#{userId}, #{title}, #{description}, #{tourDay}, #{startDate})
+    </insert>
+</mapper>
