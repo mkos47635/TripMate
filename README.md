@@ -1,6 +1,4 @@
 # TripMate
-여행 일정 관리 플랫폼
-![main](https://github.com/user-attachments/assets/1e395cd0-9161-4ed5-a750-fc3840d45602)
 
 # 📌프로젝트 소개
 TripMate는 사용자가 보다 효율적이고 편리하게 여행 일정을 계획하고 관리할 수 있도록 지원하는 통합 여행 관리 사이트입니다.
