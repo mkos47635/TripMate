@@ -1,0 +1,36 @@
+
+# connection Pool에서 사용할 최대 connection 갯수를 지정합니다. 
+# 이 부분은 운영환경과 개발환경에 매우 밀접하게 연결되는 부분으로, 많은 테스트 및 운영이 필요함.
+spring.datasource.hikari.maximum-pool-size=50
+
+# connection Pool에서 유지할 최소한의 connection 갯수를 지정. 
+# HikariCP에서는 최고의 performance를 위해 maximumPoolSize와 minimumIdle값을 같은 값으로 지정해서 
+# connection Pool의 크기를 fix하는 것을 강력하게 권장.
+spring.datasource.hikari.minimum-idle=50
+
+# connection 연결시도시 timeout out값을 설정. 
+# 이 시간내로 connection을 연결하는데 실패하면 SQLException을 발생.
+# default: 30000 - 30 seconds
+spring.datasource.hikari.connection-timeout=5000
+
+# 새로운 connection이 생성되고, Pool에 추가되기 전에 실행될 SQL query를 지정.
+# default : none
+spring.datasource.hikari.connection-init-sql=SELECT 1
+
+# connection Pool에 의하여 확보된 connection의 maximum idle time을 결정. 
+# connection Pool에 의하여 확보된 connection이 사용되지 않고, Pool에 의해서만 이 시간동안 관리된 경우, 
+# connection을 DB에 반환하게 됩니다. 값을 0으로 설정하는 경우, 확보된 connection을 절대 반환하지 않습니다.
+# default : 600000 - 10 minutes
+spring.datasource.hikari.idle-timeout=600000
+
+# connection Pool에 의하여 확보된 connection의 최대 생명주기를 지정. 
+# connection을 얻어낸지, 이 시간이상되면 최근에 사용하고 있던 connection일지라도, connection을 close시킴. 
+# 사용중에 있던 connection은 close 시키지 않음. (사용이 끝나면 바로 close 됩니다.) 
+# HikariCP에서는 이 값을 30~60 minutes 사이의 값을 설정하라고 강력권고함. 값을 0로 설정하는 경우 lifetime은 무제한이 됩니다.
+# default : 1800000 - 30 minutes
+spring.datasource.hikari.max-lifetime=1800000
+
+# connection이 종료되거나 pool에 반환될 때, connection에 속해있는 transaction을 commit 할지를 결정.
+# default : true
+spring.datasource.hikari.auto-commit=true
+

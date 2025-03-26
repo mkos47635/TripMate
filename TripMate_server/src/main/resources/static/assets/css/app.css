@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Serif+KR:wght@200..900&display=swap');
+
+mark.sky {
+  background: linear-gradient(to top, #54fff9 20%, transparent 30%);
+}
+
+mark.orange {
+  background: linear-gradient(to top, orange 20%, transparent 30%);
+}
+
+.divider {
+  border: 0.5px solid lightgray;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: "Song Myung", serif;
+}
+
+h4 {
+    font-weight: 700;
+}
+
+.nav-link {
+    color: rgb(196, 196, 196);
+}
+
+ul {
+    padding: 0;
+}
+
+.card {
+    padding: 0;
+}
