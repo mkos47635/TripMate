@@ -33,7 +33,7 @@ TripMate는 여행 준비와 일정을 관리하는 과정을 효율적이고 �
 ## 여행 일정 공유
 ![Share GIF](img/share1.gif)
 
-## 여행 일정 추천
+## AI 여행 일정 추천
 ![AI GIF](img/ai1.gif)
 
 ## 지역별, 카테고리별 관광지 검색
